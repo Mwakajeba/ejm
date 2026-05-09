@@ -79,17 +79,20 @@
             <div>
                 <h3 class="text-sm font-semibold uppercase tracking-wider text-white">Contact</h3>
                 <address class="mt-4 not-italic text-sm leading-relaxed">
-                    CityMall, Morogoro Road / Bibi Titi Road<br>
-                    Dar es Salaam, Tanzania<br>
-                    <a href="mailto:sales@example.co.tz" class="mt-2 inline-block hover:text-amber-300">sales@example.co.tz</a><br>
-                    Sales Support:
-                    <a href="tel:+255764999993" class="hover:text-amber-300">0764 999 993</a>
+                    Mtendeni Street, Opp BIMA House<br>
+                    P.O. Box 4141, Dodoma, Tanzania<br>
+                    <span class="mt-3 block text-zinc-400">Tel</span>
+                    <a href="tel:+255262323561" class="hover:text-amber-300">+255 26 2323561</a>
+                    <span class="text-zinc-500"> or </span>
+                    <a href="tel:+255714264274" class="hover:text-amber-300">+255 714 264274</a><br>
+                    <span class="mt-2 block text-zinc-400">E-mail</span>
+                    <a href="mailto:ejminternationalltd@gmail.com" class="hover:text-amber-300">ejminternationalltd@gmail.com</a>
                 </address>
             </div>
             <div class="lg:col-span-2">
                 <h3 class="text-sm font-semibold uppercase tracking-wider text-white">About us</h3>
                 <p class="mt-4 max-w-xl text-sm leading-relaxed text-zinc-400">
-                    Your shop for laptops, desktops, monitors, and components — curated selection, competitive TZS pricing, and local support. Visit us in Dar es Salaam or order online.
+                    Your shop for laptops, desktops, printers, network, and security products — curated selection, competitive TZS pricing, and local support. Visit us in Dodoma or order online.
                 </p>
             </div>
         </div>
