@@ -1,8 +1,9 @@
 *.log
 .DS_Store
+# Environment — never commit secrets; only .env.example is tracked
 .env
-.env.backup
-.env.production
+.env.*
+!.env.example
 .phpactor.json
 .phpunit.result.cache
 /.codex
