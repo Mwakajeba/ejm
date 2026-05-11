@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -23,6 +24,20 @@ class HomeController extends Controller
             ->take(8)
             ->get();
 
+        return view('home', [
+            'dbHotSales' => $dbHotSales,
+            'dbLatest' => $dbLatest,
+            'bestSellerTabs' => self::buildBestSellerTabs(),
+        ]);
+    }
+
+    /**
+     * Tab payloads for the home “Best sellers” block (used by HomeController and the home view composer).
+     *
+     * @return list<array{key: string, label: string, dbProducts: Collection<int, Product>, fallbackRows: list<array<string, mixed>>}>
+     */
+    public static function buildBestSellerTabs(): array
+    {
         $bestSellerTabs = [];
         foreach (Product::categoryLabels() as $key => $label) {
             $dbProducts = Product::query()
@@ -41,11 +56,7 @@ class HomeController extends Controller
             ];
         }
 
-        return view('home', [
-            'dbHotSales' => $dbHotSales,
-            'dbLatest' => $dbLatest,
-            'bestSellerTabs' => $bestSellerTabs,
-        ]);
+        return $bestSellerTabs;
     }
 
     /**
