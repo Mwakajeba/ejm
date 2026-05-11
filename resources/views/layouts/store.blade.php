@@ -34,15 +34,18 @@
             </div>
 
             <div class="ml-auto flex items-center gap-2 sm:gap-4">
-                @if (Route::has('login'))
-                    @auth
-                        <a href="{{ url('/dashboard') }}" class="hidden text-sm font-medium text-zinc-700 hover:text-red-600 sm:inline">Account</a>
-                    @else
-                        <a href="{{ route('login') }}" class="hidden text-sm font-medium text-zinc-700 hover:text-red-600 sm:inline">Login</a>
-                    @endauth
+                @auth
+                    @if (auth()->user()->is_admin)
+                        <a href="{{ route('admin.dashboard') }}" class="text-sm font-medium text-zinc-700 hover:text-red-600">Admin</a>
+                    @endif
+                    <form method="post" action="{{ route('logout') }}" class="inline">
+                        @csrf
+                        <button type="submit" class="text-sm font-medium text-zinc-700 hover:text-red-600">Log out</button>
+                    </form>
                 @else
-                    <a href="#" class="hidden text-sm font-medium text-zinc-700 hover:text-red-600 sm:inline">Login</a>
-                @endif
+                    <a href="{{ route('login') }}" class="text-sm font-medium text-zinc-700 hover:text-red-600">Login</a>
+                    <a href="{{ route('register') }}" class="text-sm font-medium text-zinc-700 hover:text-red-600">Register</a>
+                @endauth
                 <button type="button" data-open-cart class="relative inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3 py-2 text-sm font-medium text-zinc-800 shadow-sm hover:border-zinc-300">
                     <svg class="h-5 w-5 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 3.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/></svg>
                     <span class="hidden sm:inline">Cart</span>
@@ -67,10 +70,30 @@
     <footer class="mt-16 border-t border-zinc-200 bg-zinc-900 text-zinc-300">
         <div class="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:grid-cols-2 lg:grid-cols-4 lg:px-8">
             <div>
+                <h3 class="text-sm font-semibold uppercase tracking-wider text-white">Social media</h3>
+                <div class="mt-4 flex items-center gap-5">
+                    <a href="https://www.instagram.com/ejminternationalltd_/" target="_blank" rel="noopener noreferrer" class="text-zinc-400 transition hover:text-amber-300" aria-label="Instagram">
+                        <svg class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9Zm10.75 1.75a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=61589267622759" target="_blank" rel="noopener noreferrer" class="text-zinc-400 transition hover:text-amber-300" aria-label="Facebook">
+                        <svg class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M13.5 22v-8h2.7l.4-3h-3.1V9.1c0-.9.3-1.5 1.6-1.5h1.7V4.9c-.3 0-1.4-.1-2.7-.1-2.7 0-4.5 1.6-4.5 4.6V11H7v3h2.6v8h3.9Z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.youtube.com/channel/UCzSjmKKm_WzxGExWY35WCog" target="_blank" rel="noopener noreferrer" class="text-zinc-400 transition hover:text-amber-300" aria-label="YouTube">
+                        <svg class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.7 4.6 12 4.6 12 4.6s-5.7 0-7.5.5A3 3 0 0 0 2.4 7.2 31.3 31.3 0 0 0 2 12a31.3 31.3 0 0 0 .4 4.8 3 3 0 0 0 2.1 2.1c1.8.5 7.5.5 7.5.5s5.7 0 7.5-.5a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 22 12a31.3 31.3 0 0 0-.4-4.8ZM10 15.2V8.8L15.5 12 10 15.2Z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div>
                 <h3 class="text-sm font-semibold uppercase tracking-wider text-white">Customer care</h3>
                 <ul class="mt-4 space-y-2 text-sm">
                     <li><a href="#" class="hover:text-amber-300">About</a></li>
-                    <li><a href="#" class="hover:text-amber-300">Contact us</a></li>
+                    <li><a href="{{ route('contact') }}" class="hover:text-amber-300">Contact us</a></li>
                     <li><a href="#" class="hover:text-amber-300">Terms &amp; Conditions</a></li>
                     <li><a href="#" class="hover:text-amber-300">Refund policy</a></li>
                     <li><a href="#" class="hover:text-amber-300">Delivery</a></li>
@@ -85,17 +108,19 @@
                     <a href="tel:+255262323561" class="hover:text-amber-300">+255 26 2323561</a>
                     <span class="text-zinc-500"> or </span>
                     <a href="tel:+255714264274" class="hover:text-amber-300">+255 714 264274</a><br>
+                    <a href="tel:+255764999993" class="hover:text-amber-300">+255 764 999993</a><br>
                     <span class="mt-2 block text-zinc-400">E-mail</span>
                     <a href="mailto:ejminternationalltd@gmail.com" class="hover:text-amber-300">ejminternationalltd@gmail.com</a>
                 </address>
             </div>
-            <div class="lg:col-span-2">
+            <div>
                 <h3 class="text-sm font-semibold uppercase tracking-wider text-white">About us</h3>
                 <p class="mt-4 max-w-xl text-sm leading-relaxed text-zinc-400">
-                    Your shop for laptops, desktops, printers, network, and security products — curated selection, competitive TZS pricing, and local support. Visit us in Dodoma or order online.
+                    EJM International Ltd offers a wide-ranging pool of state-of-the-art digital solutions from the world's top-tier manufacturers.
                 </p>
             </div>
         </div>
+
         <div class="border-t border-zinc-800 py-4 text-center text-xs text-zinc-500">
             © {{ date('Y') }} {{ config('app.name') }} — All rights reserved
         </div>

@@ -88,11 +88,81 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     hotsaleTrack?.addEventListener('mouseenter', hotsaleAutoStop);
     hotsaleTrack?.addEventListener('mouseleave', hotsaleAutoStart);
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) hotsaleAutoStop();
-        else hotsaleAutoStart();
+
+    /** Same idea as hot sale: overflow scroll, arrows, auto-advance; seamless jump at half when DOM is duplicated */
+    const initPartnerStrip = (strip) => {
+        const track = strip.querySelector('[data-partners-track]');
+        const prev = strip.querySelector('[data-partners-prev]');
+        const next = strip.querySelector('[data-partners-next]');
+        if (!track) return null;
+
+        const step = () => {
+            const slide = track.querySelector('article');
+            if (!slide) return 280;
+            const styles = getComputedStyle(track);
+            const gap = parseFloat(styles.columnGap || styles.gap || '16') || 16;
+            return slide.offsetWidth + gap;
+        };
+
+        const scrollByDelta = (delta) => track.scrollBy({ left: delta, behavior: 'smooth' });
+        prev?.addEventListener('click', () => scrollByDelta(-step()));
+        next?.addEventListener('click', () => scrollByDelta(step()));
+
+        let autoId = null;
+        const tick = () => {
+            const { scrollLeft, scrollWidth, clientWidth } = track;
+            const max = scrollWidth - clientWidth;
+            const s = step();
+            if (max <= 0) return;
+            const half = scrollWidth / 2;
+            if (half > 10 && scrollLeft >= half - 4) {
+                track.scrollLeft = scrollLeft - half;
+            }
+            track.scrollBy({ left: s, behavior: 'smooth' });
+        };
+        const start = () => {
+            if (autoId || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            autoId = window.setInterval(tick, 3200);
+            // First paint / lazy images can leave scrollWidth === clientWidth briefly; kick after layout.
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => tick());
+            });
+        };
+        const stop = () => {
+            if (autoId !== null) {
+                window.clearInterval(autoId);
+                autoId = null;
+            }
+        };
+        track.addEventListener('mouseenter', stop);
+        track.addEventListener('mouseleave', start);
+        return { start, stop };
+    };
+
+    const partnerStripControls = [];
+    document.querySelectorAll('[data-partners-strip]').forEach((strip) => {
+        const ctl = initPartnerStrip(strip);
+        if (ctl) partnerStripControls.push(ctl);
     });
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            hotsaleAutoStop();
+            partnerStripControls.forEach((c) => c.stop());
+        } else {
+            hotsaleAutoStart();
+            partnerStripControls.forEach((c) => c.start());
+        }
+    });
+
     hotsaleAutoStart();
+    partnerStripControls.forEach((c) => c.start());
+    window.addEventListener('load', () => {
+        partnerStripControls.forEach((c) => {
+            c.stop();
+            c.start();
+        });
+    });
 
     const countEl = document.querySelector('[data-cart-count]');
     let count = 0;

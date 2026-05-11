@@ -15,7 +15,7 @@
         <button type="button" class="flex items-center gap-0.5 px-2 py-3 hover:text-red-600 lg:px-3">Shop <svg class="h-3.5 w-3.5 opacity-60" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"/></svg></button>
         <div class="invisible absolute left-0 top-full z-50 pt-1 opacity-0 transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
             <div class="w-48 rounded-lg border border-zinc-200 bg-white py-2 shadow-lg">
-                <a href="#" class="block px-4 py-2 text-left hover:bg-zinc-50">All products</a>
+                <a href="{{ route('products.index') }}" class="block px-4 py-2 text-left hover:bg-zinc-50">All products</a>
                 <a href="#" class="block px-4 py-2 text-left hover:bg-zinc-50">Cart</a>
                 <a href="#" class="block px-4 py-2 text-left hover:bg-zinc-50">Checkout</a>
             </div>
@@ -116,7 +116,7 @@
         <div class="invisible absolute right-0 top-full z-50 pt-1 opacity-0 transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
             <div class="w-52 rounded-lg border border-zinc-200 bg-white py-2 shadow-lg">
                 <a href="#" class="block px-4 py-2 text-left hover:bg-zinc-50">About us</a>
-                <a href="#" class="block px-4 py-2 text-left hover:bg-zinc-50">Contact</a>
+                <a href="{{ route('contact') }}" class="block px-4 py-2 text-left hover:bg-zinc-50">Contact</a>
                 <a href="#" class="block px-4 py-2 text-left hover:bg-zinc-50">Delivery</a>
             </div>
         </div>
@@ -127,7 +127,7 @@
 <div id="mobile-nav" class="hidden border-t border-zinc-200 md:hidden">
     <div class="mx-auto max-h-[70vh] space-y-0 overflow-y-auto px-4 py-3 text-sm">
         <a href="{{ url('/') }}" class="block rounded-lg px-3 py-2.5 font-medium hover:bg-zinc-100">Home</a>
-        <a href="#" class="block rounded-lg px-3 py-2.5 font-medium hover:bg-zinc-100">Shop</a>
+        <a href="{{ route('products.index') }}" class="block rounded-lg px-3 py-2.5 font-medium hover:bg-zinc-100">All products</a>
 
         <details class="rounded-lg border border-transparent open:border-zinc-200 open:bg-zinc-50">
             <summary class="cursor-pointer list-none px-3 py-2.5 font-medium marker:hidden hover:bg-zinc-100 [&::-webkit-details-marker]:hidden">Laptop</summary>
@@ -198,5 +198,20 @@
                 <a href="#" class="block rounded-md py-2 pl-3 text-zinc-700 hover:bg-white">ESET</a>
             </div>
         </details>
+
+        <div class="mt-4 border-t border-zinc-200 pt-4">
+            @auth
+                @if (auth()->user()->is_admin)
+                    <a href="{{ route('admin.dashboard') }}" class="block rounded-lg px-3 py-2.5 font-medium hover:bg-zinc-100">Admin</a>
+                @endif
+                <form method="post" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="w-full rounded-lg px-3 py-2.5 text-left font-medium hover:bg-zinc-100">Log out</button>
+                </form>
+            @else
+                <a href="{{ route('login') }}" class="block rounded-lg px-3 py-2.5 font-medium hover:bg-zinc-100">Login</a>
+                <a href="{{ route('register') }}" class="block rounded-lg px-3 py-2.5 font-medium hover:bg-zinc-100">Register</a>
+            @endauth
+        </div>
     </div>
 </div>
