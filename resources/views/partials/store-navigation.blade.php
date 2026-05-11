@@ -201,16 +201,22 @@
 
         <div class="mt-4 border-t border-zinc-200 pt-4">
             @auth
-                @if (auth()->user()->is_admin)
+                @if (auth()->user()->is_admin && Route::has('admin.dashboard'))
                     <a href="{{ route('admin.dashboard') }}" class="block rounded-lg px-3 py-2.5 font-medium hover:bg-zinc-100">Admin</a>
                 @endif
-                <form method="post" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="w-full rounded-lg px-3 py-2.5 text-left font-medium hover:bg-zinc-100">Log out</button>
-                </form>
+                @if (Route::has('logout'))
+                    <form method="post" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="w-full rounded-lg px-3 py-2.5 text-left font-medium hover:bg-zinc-100">Log out</button>
+                    </form>
+                @endif
             @else
-                <a href="{{ route('login') }}" class="block rounded-lg px-3 py-2.5 font-medium hover:bg-zinc-100">Login</a>
-                <a href="{{ route('register') }}" class="block rounded-lg px-3 py-2.5 font-medium hover:bg-zinc-100">Register</a>
+                @if (Route::has('login'))
+                    <a href="{{ route('login') }}" class="block rounded-lg px-3 py-2.5 font-medium hover:bg-zinc-100">Login</a>
+                @endif
+                @if (Route::has('register'))
+                    <a href="{{ route('register') }}" class="block rounded-lg px-3 py-2.5 font-medium hover:bg-zinc-100">Register</a>
+                @endif
             @endauth
         </div>
     </div>
